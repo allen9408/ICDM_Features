@@ -11,13 +11,13 @@ import os
 import pandas as pd
 from dataloader import dataloader
 
-
+dataset = 'ECG5000'
 data = dataloader(True)
-df, y = data.loadDataForICDM()
+df, y = data.loadDataForUCR(dataset)
 extraction_settings = ComprehensiveFCParameters()
 X = extract_features(df, 
                      column_id='id', column_sort='time',
                      default_fc_parameters=extraction_settings,
                      impute_function= impute)
-X.to_csv('result/ICDM_features.csv')
+X.to_csv('result/' + dataset + '_features.csv')
 print(X.info)
