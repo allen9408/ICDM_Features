@@ -43,7 +43,7 @@ class dataloader(object):
 
 	def loadDataForUCR(self, filename):
 		data_path = ('/Users/allen/Code/UCR_TS_Archive_2015')
-		data_file_name = os.path.join(data_path, filename, filename+'_TRAIN')
+		data_file_name = os.path.join(data_path, filename, filename+'_TEST')
 		if not os.path.exists(data_file_name):
 			raise RuntimeError('Data file:' + data_file_name + ' not exist!')
 
@@ -58,18 +58,13 @@ class dataloader(object):
 				values = line.split(',')
 				self.dataLen = len(values) - 1
 				id_to_target[cur_id] = int(values[0])
-				row = list(map(float, values[1:]))
-				print(row)
-				df_rows.append([cur_id, time] + row)
-		print((['id', 'time'] + list(map(str,range(self.dataLen)))))
-		df = pd.DataFrame(df_rows, columns=(['id', 'time'] + list(map(str,range(self.dataLen)))))
+				for value in values[1:]:
+					if value not in ['\t', '\n']:
+						df_rows.append([cur_id, time, float(value)])
+						time += 1
+
+
+		df = pd.DataFrame(df_rows, columns=(['id', 'time', 'act']))
 		y = pd.Series(id_to_target)
 
 		return df, y
-
-
-
-
-
-
-		
