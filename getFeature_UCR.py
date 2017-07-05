@@ -10,14 +10,26 @@ from sklearn.metrics import classification_report
 import os
 import pandas as pd
 from dataloader import dataloader
+import sys
 
 dataset = 'ECG5000'
+# dataType : TEST | TRAIN
+# datatype = sys.argv[1]
 data = dataloader(True)
-df, y = data.loadDataForUCR(dataset)
+df, y, cut_point = data.loadDataForUCR(dataset)
 extraction_settings = ComprehensiveFCParameters()
-X = extract_features(df, 
-                     column_id='id', column_sort='time',
-                     default_fc_parameters=extraction_settings,
-                     impute_function= impute)
-X.to_csv('result/' + dataset + '_features.csv')
-print(X.info)
+# X = extract_features(df, 
+#                      column_id='id', column_sort='time',
+#                      default_fc_parameters=extraction_settings,
+#                      impute_function= impute)
+X_filtered = extract_relevant_features(df, y,
+					column_id='id', column_sort='time',
+					default_fc_parameters=extraction_settings)
+# change column items ',' -> '_'
+X_filtered.rename(columns = lambda x:x.replace(',', '_'), inplace=True)
+X_filtered.rename(columns = lambda x:x.replace('\"', ''), inplace=True)
+
+X_train, X_test = X_filtered[:cut_point], X_filtered[cut_point:] 
+X_train.to_csv('result/' + dataset + '_features_TRAIN.csv')
+X_test.to_csv('result/' + dataset + '_features_TEST.csv')
+# print(X_filtered.info)
