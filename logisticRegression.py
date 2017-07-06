@@ -28,7 +28,7 @@ feature_column[-1] = feature_column[-1].strip()
 
 print(feature_column)
 def input_fn(df, feature_column):
-	feature_cols = {k: tf.constant(df[k].values) for k in feature_column}
+	feature_cols = {k: tf.constant(df[k].values, shape=[df[k].size, 1]) for k in feature_column}
 	label = tf.constant(df["label"].values)
 	print(df["label"])
 	return feature_cols, label
@@ -48,11 +48,10 @@ for feature in feature_column:
 
 model_dir = tempfile.mkdtemp()
 m = tf.contrib.learn.LinearClassifier(feature_columns=layer, 
-	optimizer=tf.train.FtrlOptimizer(
-		learning_rate=0.1,
-		l1_regularization_strength=1.0,
-		l2_regularization_strength=1.0),
 	model_dir=model_dir)
+# m = tf.contrib.learn.DNNClassifier(feature_columns=layer, 
+# 	model_dir=model_dir,
+# 	hidden_units=[100,50])
 
 m.fit(input_fn = train_input_fn, steps=200)
 results = m.evaluate(input_fn=eval_input_fn, steps=1)

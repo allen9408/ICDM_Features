@@ -42,7 +42,7 @@ class dataloader(object):
 		return df, y
 
 	def loadDataForUCR(self, filename):
-		data_path = ('/Users/allen/Code/UCR_TS_Archive_2015')
+		data_path = ('/home/sen/Code/UCR_TS_Archive_2015')
 		data_file_name = os.path.join(data_path, filename, filename + '_TRAIN')
 		if not os.path.exists(data_file_name):
 			raise RuntimeError('Data file:' + data_file_name + ' not exist!')

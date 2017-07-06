@@ -33,13 +33,14 @@ class featureloader(object):
 			file_columns_line = f.readline().split(',')
 			file_columns_line[-1] = file_columns_line[-1].strip()
 			df = pd.read_csv(data_file_name, names = file_columns_line, skipinitialspace = True, skiprows = 1)
-			df.drop('id', axis = 1, inplace = True)
+			if 'id' in file_columns_line:
+				df.drop('id', axis = 1, inplace = True)
 			# df.drop([df.columns[0]], axis = 1, inplace = True)
 			column = df.columns.tolist()
 
 		# Get label
 		label_column = "label"
-		label_file_name = os.path.join('/Users/allen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
+		label_file_name = os.path.join('/home/sen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
 		if not os.path.exists(label_file_name):
 			raise RunTimeError('Label file:' + label_file_name + ' not exist!')
 
