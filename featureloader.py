@@ -11,6 +11,8 @@ from six.moves import urllib
 
 import pandas as pd
 import tensorflow as tf
+from sklearn.decomposition import PCA 
+
 
 class featureloader(object):
 	"""docstring for featureloader"""
@@ -37,7 +39,7 @@ class featureloader(object):
 
 		# Get label
 		label_column = "label"
-		label_file_name = os.path.join('/home/allen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
+		label_file_name = os.path.join('/Users/allen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
 		if not os.path.exists(label_file_name):
 			raise RunTimeError('Label file:' + label_file_name + ' not exist!')
 
@@ -48,3 +50,14 @@ class featureloader(object):
 		df[label_column] = lf[lf.columns[0]]
 
 		return df, column
+
+	def feature_PCA(self, df, num):
+		data = df.as_matrix()
+		pca = PCA(n_components=num)
+		newData = pca.fit_transform(data)
+
+		feature_column = [str(i) for i in range(num)]
+		df = pd.DataFrame(data = newData, columns = feature_column)
+
+		return df
+
