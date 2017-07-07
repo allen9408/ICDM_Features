@@ -27,7 +27,7 @@ class featureloader(object):
 		data_file_name = 'result/' + self.data_name + '_features_' + self.data_type + '.csv'
 
 		if not os.path.exists(data_file_name):
-			raise RunTimeError('Feature file:'+ data_file_name +' not exist!')
+			raise RuntimeError('Feature file:'+ data_file_name +' not exist!')
 
 		with open(data_file_name) as f:
 			file_columns_line = f.readline().split(',')
@@ -40,9 +40,9 @@ class featureloader(object):
 
 		# Get label
 		label_column = "label"
-		label_file_name = os.path.join('/home/sen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
+		label_file_name = os.path.join('/home/allen/Code/UCR_TS_Archive_2015/', self.data_name, self.data_name + '_' + self.data_type)
 		if not os.path.exists(label_file_name):
-			raise RunTimeError('Label file:' + label_file_name + ' not exist!')
+			raise RuntimeError('Label file:' + label_file_name + ' not exist!')
 
 		with open(label_file_name) as l:
 			lf = pd.read_csv(label_file_name, header=None)
