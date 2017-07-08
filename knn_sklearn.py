@@ -15,7 +15,7 @@ import tensorflow as tf
 from featureloader import featureloader
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from result_figure import plot_confusion_matrix
 # load training features
@@ -47,7 +47,7 @@ X_test_std = sc.transform(X_test)
 X_combined_std = np.vstack((X_train_std, X_test_std))
 Y_combined_std = np.hstack((Y_train, Y_test))
 
-lr = LogisticRegression(C=1e5)
+lr = KNeighborsClassifier(n_neighbors = 5)
 lr.fit(X_train_std, Y_train)
 
 # Get test result

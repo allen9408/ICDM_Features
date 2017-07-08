@@ -41,7 +41,7 @@ else:
 	X_filtered.to_csv('result/' + dataset + '_features_ALL.csv')
 # PCA
 fl = featureloader('_', '_')
-X_filtered = fl.feature_PCA(X_filtered, 20)
+X_filtered = fl.feature_PCA(X_filtered, 10)
 
 cut_point = 500
 X_train, X_test = X_filtered[:cut_point], X_filtered[cut_point:] 
