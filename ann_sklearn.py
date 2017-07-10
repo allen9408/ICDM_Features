@@ -15,9 +15,10 @@ import tensorflow as tf
 from featureloader import featureloader
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from result_figure import *
+from sklearn.neural_network import MLPClassifier
 # load training features
 train_data = featureloader('TEST', 'ECG5000')
 df_train, feature_column = train_data.featureloader_UCR()
@@ -47,13 +48,13 @@ X_test_std = sc.transform(X_test)
 X_combined_std = np.vstack((X_train_std, X_test_std))
 Y_combined_std = np.hstack((Y_train, Y_test))
 
-lr = KNeighborsClassifier(n_neighbors = 5)
-lr.fit(X_train_std, Y_train)
+clf = ensemble.AdaBoostClassifier()
+clf.fit(X_train_std, Y_train)
 
 # Get test result
-Z = lr.predict(X_test_std)
+Z = clf.predict(X_test_std)
 with open("result/sklearn_reult.csv", "a") as o:
-	o.write("KNN, " + str(accuracy_score(Y_test, Z)) + "\n")
+	o.write("Adabst, " + str(accuracy_score(Y_test, Z)) + "\n")
 
 # plot_confusion_matrix(Y_test, Z, [0,1,2,3,4])
-plot_result('ECG5000', Y_test, Z, lr, 'KNN')
+plot_result('ECG5000', Y_test, Z, clf, 'Adabst')

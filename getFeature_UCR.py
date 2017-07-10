@@ -41,10 +41,18 @@ else:
 	X_filtered.to_csv('result/' + dataset + '_features_ALL.csv')
 # PCA
 fl = featureloader('_', '_')
-X_filtered = fl.feature_PCA(X_filtered, 10)
+# Data used to plot
+X_plot = fl.feature_PCA(X_filtered, 2)
+
+
+X_filtered = fl.feature_PCA(X_filtered, 20)
 
 cut_point = 500
 X_train, X_test = X_filtered[:cut_point], X_filtered[cut_point:] 
 X_train.to_csv('result/' + dataset + '_features_TRAIN.csv')
 X_test.to_csv('result/' + dataset + '_features_TEST.csv')
 # print(X_filtered.info)
+
+X_train_plot, X_test_plot = X_plot[:cut_point], X_plot[cut_point:]
+X_train_plot.to_csv('result/' + dataset + '_plot_TRAIN.csv')
+X_test_plot.to_csv('result/' + dataset + '_plot_TEST.csv')

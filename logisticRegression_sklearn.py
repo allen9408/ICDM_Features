@@ -17,7 +17,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from result_figure import plot_confusion_matrix
+from result_figure import *
 # load training features
 train_data = featureloader('TEST', 'ECG5000')
 df_train, feature_column = train_data.featureloader_UCR()
@@ -52,17 +52,10 @@ lr.fit(X_train_std, Y_train)
 
 # Get test result
 Z = lr.predict(X_test_std)
-print(accuracy_score(Y_test, Z))
+with open("result/sklearn_reult.csv", "a") as o:
+	o.write("Log_Reg, " + str(accuracy_score(Y_test, Z)) + "\n")
+# print(accuracy_score(Y_test, Z))
 
-plot_confusion_matrix(Y_test, Z, [0,1,2,3,4])
-# Z = Z.reshape(X_train_std.shape)
-
-# # plot test points
-# plt.figure(1, figsize = (4, 3))
-# plt.pcolormesh(X_test_std, Y_test, Z, cmap = plt.cm.Paired)
-
-# # plot training points
-# plt.scatter(X_train_std[:, 0], c = Y, edgecolors = 'k', cmap = plt.cm.Paired)
-# plt.xlable('Sepal Length')
-# plt.ylable('Sepal Width')
+# plot_confusion_matrix(Y_test, Z, [0,1,2,3,4])
+plot_result('ECG5000', Y_test, Z, lr, 'logreg')
 
