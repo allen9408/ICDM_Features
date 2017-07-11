@@ -3,3 +3,6 @@ Log_Reg, 0.628
 KNN, 0.59
 rbf_SVM, 0.624
 Adabst, 0.588
+rbf_SVM, 0.624
+ANN, 0.592
+RanFst, 0.584

@@ -47,7 +47,7 @@ class featureloader(object):
 		with open(label_file_name) as l:
 			lf = pd.read_csv(label_file_name, header=None)
 
-		print(len(lf[lf.columns[0]]))
+		# print(len(lf[lf.columns[0]]))
 		df[label_column] = lf[lf.columns[0]]
 
 		return df, column
