@@ -19,18 +19,19 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from result_figure import *
 # load training features
-train_data = featureloader('TEST', 'ECG5000')
-df_train, feature_column = train_data.featureloader_UCR()
-# df_train.to_csv('tmp_1.csv')
+# train_data = featureloader('TEST', 'ECG5000')
+# df_train, feature_column = train_data.featureloader_UCR()
+# # df_train.to_csv('tmp_1.csv')
 
-# load test training
-test_data = featureloader('TRAIN', 'ECG5000')
-df_test, feature_column = test_data.featureloader_UCR()
-# df_test.to_csv('tmp_2.csv')
+# # load test training
+# test_data = featureloader('TRAIN', 'ECG5000')
+# df_test, feature_column = test_data.featureloader_UCR()
+# # df_test.to_csv('tmp_2.csv')
 
-# remove \n in feature_column
-feature_column[-1] = feature_column[-1].strip()
-
+# # remove \n in feature_column
+# feature_column[-1] = feature_column[-1].strip()
+data = featureloader('_', 'ECG5000')
+df_train, df_test, feature_column = data.get_split_data()
 
 # convert data to numpy
 Y_train = df_train["label"].values
@@ -57,5 +58,5 @@ with open("result/sklearn_reult.csv", "a") as o:
 # print(accuracy_score(Y_test, Z))
 
 # plot_confusion_matrix(Y_test, Z, [0,1,2,3,4])
-plot_result('ECG5000', Y_test, Z, lr, 'logreg')
+plot_result(X_test, Y_test, Z, lr, 'logreg')
 

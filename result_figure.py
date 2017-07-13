@@ -37,11 +37,12 @@ def plot_confusion_matrix(real_vec,pre_vec,classes,normalize=False,title='Confus
 
 def plot_result(dataset, Y, Z, clf, title):
 	# load X from dataset
-	datafile = 'result/' + dataset + '_plot_TRAIN.csv'
-	if not os.path.exists(datafile):
-		raise RuntimeError('Data file:' + datafile + ' not exists!')
+	# datafile = 'result/' + dataset + '_plot_TRAIN.csv'
+	# if not os.path.exists(datafile):
+	# 	raise RuntimeError('Data file:' + datafile + ' not exists!')
 
-	X = pd.read_csv(datafile, skipinitialspace = True).values[:, 1:]
+	# X = pd.read_csv(datafile, skipinitialspace = True).values[:, 1:]
+	X = dataset
 	# print(X.shape)
 	x_min, x_max = X[:, 0].min(), X[:, 0].max()
 	y_min, y_max = X[:, 1].min(), X[:, 1].max()
