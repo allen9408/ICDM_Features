@@ -204,8 +204,8 @@ def get_classified_result(data):
 
 
 
-# for data in os.listdir(dataset_path):
-for data in ['ElectricDevices']:
+for data in os.listdir(dataset_path):
+# for data in ['ElectricDevices']:
 	if data not in ['.DS_Store']:
 		print(data)
 		get_classified_result(data)
