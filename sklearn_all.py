@@ -18,7 +18,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 
 
-dataset_path = "/home/allen/Code/UCR_TS_Archive_2015"
+dataset_path = "/home/sen/Code/UCR_TS_Archive_2015"
 
 def get_train_test_data(train_origin_file, test_origin_file):
 	id_to_target = {}
@@ -66,15 +66,15 @@ def get_train_test_feature(data_name, data_all, y_all):
 		all_train = data_all
 		all_y = y_all
 		extraction_settings = ComprehensiveFCParameters()
-		all_feature = extract_relevant_features(all_train, all_y,
-						column_id='id', column_sort='time',
-						default_fc_parameters=extraction_settings)
+		# all_feature = extract_relevant_features(all_train, all_y,
+		# 				column_id='id', column_sort='time',
+		# 				default_fc_parameters=extraction_settings)
+		all_feature = extract_features(all_train,
+						column_id='id', column_sort='time')
 		# change column items ',' -> '_'
 		all_feature.rename(columns = lambda x:x.replace(',', '_'), inplace=True)
 		all_feature.rename(columns = lambda x:x.replace('\"', ''), inplace=True)
 		all_feature.to_csv(all_feature_file)
-		all_column = all_feature.columns.tolist()
-		all_column[-1] = all_column[-1].strip()
 		all_column = all_feature.columns.tolist()
 		all_column[-1] = all_column[-1].strip()
 
@@ -83,7 +83,12 @@ def get_train_test_feature(data_name, data_all, y_all):
 	return all_feature, all_column
 
 def feature_PCA(features, num, data_name):
+	_,N = features.shape
 	pca_file = 'result/pca/' + data_name + '_pca.csv'
+	print('N = ' + str(N))
+	if N <= num:
+		features.to_csv(pca_file)		
+		return features;
 	if os.path.exists(pca_file):
 		df = pd.read_csv(pca_file)
 	else:
@@ -187,7 +192,7 @@ def get_classified_result(data):
 
 
 for data in os.listdir(dataset_path):
-# for data in ['wafer']:
+# for data in ['Cricket_Z']:
 	if data not in ['.DS_Store']:
 		print(data)
 		get_classified_result(data)
