@@ -195,6 +195,11 @@ def get_classified_result(data):
 	
 
 
+def read_from_result(data_name):
+	result_file = 'result/accuracy/' + data_name + '_accuracy.csv'
+	result = pd.read_csv(result_file, skipinitialspace = True,)
+	# print(result.values[0])
+	return result.values[0]
 
 
 
@@ -202,10 +207,17 @@ def get_classified_result(data):
 
 
 
-
-
+final_output_file = 'result/tsfresh_result.csv'
+final_column = ['dataset', 'adaboost', 'ann', 'decision tree', 'knn', 'linearSVM', 'logistic regression', 'random forrest']
+final_result = []
 for data in os.listdir(dataset_path):
 # for data in ['ElectricDevices']:
 	if data not in ['.DS_Store']:
 		print(data)
 		get_classified_result(data)
+		row = [str(i) for i in read_from_result(data)[1:]]
+		result_row = [data] + row
+		print(result_row)
+		final_result.append(result_row)
+final_result = pd.DataFrame(data = final_result, columns = final_column)
+final_result.to_csv(final_output_file)
